@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户
- * @TableName user
+ * 题目提交
+ * @TableName question_submit
  */
-@TableName(value ="user")
+@TableName(value ="question_submit")
 @Data
-public class User implements Serializable {
+public class QuestionSubmit implements Serializable {
     /**
      * id
      */
@@ -20,44 +20,34 @@ public class User implements Serializable {
     private Long id;
 
     /**
-     * 账号
+     * 编程语言
      */
-    private String userAccount;
+    private String language;
 
     /**
-     * 密码
+     * 用户代码
      */
-    private String userPassword;
+    private String code;
 
     /**
-     * 微信开放平台id
+     * 判题信息（json 对象）
      */
-    private String unionId;
+    private String judgeInfo;
 
     /**
-     * 公众号openId
+     * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
      */
-    private String mpOpenId;
+    private Integer status;
 
     /**
-     * 用户昵称
+     * 题目 id
      */
-    private String userName;
+    private Long questionId;
 
     /**
-     * 用户头像
+     * 创建用户 id
      */
-    private String userAvatar;
-
-    /**
-     * 用户简介
-     */
-    private String userProfile;
-
-    /**
-     * 用户角色：user/admin/ban
-     */
-    private String userRole;
+    private Long userId;
 
     /**
      * 创建时间

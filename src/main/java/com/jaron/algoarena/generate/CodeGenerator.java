@@ -28,9 +28,9 @@ public class CodeGenerator {
     public static void main(String[] args) throws TemplateException, IOException {
         // 指定生成参数
         String packageName = "com.jaron.algoarena";
-        String dataName = "用户评论";
-        String dataKey = "userComment";
-        String upperDataKey = "UserComment";
+        String dataName = "题目提交";
+        String dataKey = "questionSubmit";
+        String upperDataKey = "QuestionSubmit";
 
         // 封装生成参数
         Map<String, Object> dataModel = new HashMap<>();
