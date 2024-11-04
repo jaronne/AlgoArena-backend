@@ -1,6 +1,8 @@
 package com.jaron.algoarena.model.vo;
 
 import cn.hutool.json.JSONUtil;
+import com.jaron.algoarena.model.dto.question.JudgeConfig;
+import com.jaron.algoarena.model.dto.questionSubmit.JudgeInfo;
 import com.jaron.algoarena.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -22,14 +24,29 @@ public class QuestionSubmitVO implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 编程语言
      */
-    private String title;
+    private String language;
 
     /**
-     * 内容
+     * 用户代码
      */
-    private String content;
+    private String code;
+
+    /**
+     * 判题信息（json 对象）
+     */
+    private JudgeInfo judgeInfo;
+
+    /**
+     * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+     */
+    private Integer status;
+
+    /**
+     * 题目 id
+     */
+    private Long questionId;
 
     /**
      * 创建用户 id
@@ -45,11 +62,6 @@ public class QuestionSubmitVO implements Serializable {
      * 更新时间
      */
     private Date updateTime;
-
-    /**
-     * 标签列表
-     */
-    private List<String> tagList;
 
     /**
      * 创建用户信息
@@ -68,6 +80,9 @@ public class QuestionSubmitVO implements Serializable {
         }
         QuestionSubmit questionSubmit = new QuestionSubmit();
         BeanUtils.copyProperties(questionSubmitVO, questionSubmit);
+        // 设置判题信息
+        JudgeInfo judgeInfo = questionSubmitVO.getJudgeInfo();
+        questionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         return questionSubmit;
     }
 
@@ -83,6 +98,9 @@ public class QuestionSubmitVO implements Serializable {
         }
         QuestionSubmitVO questionSubmitVO = new QuestionSubmitVO();
         BeanUtils.copyProperties(questionSubmit, questionSubmitVO);
+        // 设置判题信息
+        String judgeInfo = questionSubmit.getJudgeInfo();
+        questionSubmitVO.setJudgeInfo(JSONUtil.toBean(judgeInfo, JudgeInfo.class));
         return questionSubmitVO;
     }
 }

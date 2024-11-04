@@ -15,6 +15,7 @@ import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitQueryRequest;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitUpdateRequest;
 import com.jaron.algoarena.model.entity.QuestionSubmit;
 import com.jaron.algoarena.model.entity.User;
+import com.jaron.algoarena.model.enums.QuestionSubmitStatusEnum;
 import com.jaron.algoarena.model.vo.QuestionSubmitVO;
 import com.jaron.algoarena.service.QuestionSubmitService;
 import com.jaron.algoarena.service.UserService;
@@ -60,6 +61,8 @@ public class QuestionSubmitController {
         // todo 填充默认值
         User loginUser = userService.getLoginUser(request);
         questionSubmit.setUserId(loginUser.getId());
+        questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
+        questionSubmit.setJudgeInfo("{}");
         // 写入数据库
         boolean result = questionSubmitService.save(questionSubmit);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);

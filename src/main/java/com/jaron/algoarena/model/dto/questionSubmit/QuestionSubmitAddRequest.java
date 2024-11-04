@@ -13,19 +13,19 @@ import java.util.List;
 public class QuestionSubmitAddRequest implements Serializable {
 
     /**
-     * 标题
+     * 编程语言
      */
-    private String title;
+    private String language;
 
     /**
-     * 内容
+     * 用户代码
      */
-    private String content;
+    private String code;
 
     /**
-     * 标签列表
+     * 题目 id
      */
-    private List<String> tags;
+    private Long questionId;
 
     private static final long serialVersionUID = 1L;
 }

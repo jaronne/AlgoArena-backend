@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitQueryRequest;
 import com.jaron.algoarena.model.entity.QuestionSubmit;
+import com.jaron.algoarena.model.entity.User;
 import com.jaron.algoarena.model.vo.QuestionSubmitVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,15 @@ public interface QuestionSubmitService extends IService<QuestionSubmit> {
      * @return
      */
     QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, HttpServletRequest request);
+
+    /**
+     * 获取题目提交封装
+     *
+     * @param questionSubmit
+     * @param loginUser
+     * @return
+     */
+    QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser);
 
     /**
      * 分页获取题目提交封装

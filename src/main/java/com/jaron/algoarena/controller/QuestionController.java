@@ -54,8 +54,10 @@ public class QuestionController {
         // 将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionAddRequest, question);
+        List<String> tags = questionAddRequest.getTags();
         List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
         JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
+        question.setTags(JSONUtil.toJsonStr(tags));
         question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
         question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         // 数据校验
@@ -113,6 +115,12 @@ public class QuestionController {
         // todo 在此处将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionUpdateRequest, question);
+        List<String> tags = questionUpdateRequest.getTags();
+        List<JudgeCase> judgeCase = questionUpdateRequest.getJudgeCase();
+        JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
+        question.setTags(JSONUtil.toJsonStr(tags));
+        question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
+        question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         // 数据校验
         questionService.validQuestion(question, false);
         // 判断是否存在
@@ -219,6 +227,12 @@ public class QuestionController {
         // todo 在此处将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionEditRequest, question);
+        List<String> tags = questionEditRequest.getTags();
+        List<JudgeCase> judgeCase = questionEditRequest.getJudgeCase();
+        JudgeConfig judgeConfig = questionEditRequest.getJudgeConfig();
+        question.setTags(JSONUtil.toJsonStr(tags));
+        question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
+        question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         // 数据校验
         questionService.validQuestion(question, false);
         User loginUser = userService.getLoginUser(request);

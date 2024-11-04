@@ -1,24 +1,26 @@
 package com.jaron.algoarena.model.enums;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * 用户角色枚举
+ * 题目提交状态枚举
  */
-public enum UserRoleEnum {
+public enum QuestionSubmitStatusEnum {
 
-    USER("用户", "user"),
-    ADMIN("管理员", "admin"),
-    BAN("被封号", "ban");
+    //判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+    WAITING("待判题", 0),
+    JUDGING("判题中", 1),
+    SUCCESS("成功", 2),
+    FAIL("失败", 3);
 
     private final String text;
+    private final Integer value;
 
-    private final String value;
-
-    UserRoleEnum(String text, String value) {
+    QuestionSubmitStatusEnum(String text, Integer value) {
         this.text = text;
         this.value = value;
     }
@@ -28,7 +30,7 @@ public enum UserRoleEnum {
      *
      * @return
      */
-    public static List<String> getValues() {
+    public static List<Integer> getValues() {
         return Arrays.stream(values()).map(item -> item.value).collect(Collectors.toList());
     }
 
@@ -38,11 +40,11 @@ public enum UserRoleEnum {
      * @param value
      * @return
      */
-    public static UserRoleEnum getEnumByValue(String value) {
+    public static QuestionSubmitStatusEnum getEnumByValue(Integer value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }
-        for (UserRoleEnum anEnum : UserRoleEnum.values()) {
+        for (QuestionSubmitStatusEnum anEnum : QuestionSubmitStatusEnum.values()) {
             if (anEnum.value.equals(value)) {
                 return anEnum;
             }
@@ -50,11 +52,12 @@ public enum UserRoleEnum {
         return null;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
     public String getText() {
         return text;
     }
+
 }

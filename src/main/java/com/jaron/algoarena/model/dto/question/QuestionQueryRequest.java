@@ -3,7 +3,6 @@ package com.jaron.algoarena.model.dto.question;
 import com.jaron.algoarena.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.io.Serializable;
 import java.util.List;
 
