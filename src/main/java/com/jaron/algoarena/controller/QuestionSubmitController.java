@@ -9,6 +9,7 @@ import com.jaron.algoarena.common.ResultUtils;
 import com.jaron.algoarena.constant.UserConstant;
 import com.jaron.algoarena.exception.BusinessException;
 import com.jaron.algoarena.exception.ThrowUtils;
+import com.jaron.algoarena.judge.JudgeService;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitAddRequest;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitEditRequest;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitQueryRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 题目提交接口
@@ -40,6 +42,9 @@ public class QuestionSubmitController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private JudgeService judgeService;
 
     // region 增删改查
 
@@ -68,6 +73,10 @@ public class QuestionSubmitController {
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         // 返回新写入的数据 id
         long newQuestionSubmitId = questionSubmit.getId();
+        // 异步执行判题
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(newQuestionSubmitId);
+        });
         return ResultUtils.success(newQuestionSubmitId);
     }
 
