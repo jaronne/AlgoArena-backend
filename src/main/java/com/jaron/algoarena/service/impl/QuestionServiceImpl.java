@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jaron.algoarena.common.ErrorCode;
 import com.jaron.algoarena.constant.CommonConstant;
+import com.jaron.algoarena.exception.BusinessException;
 import com.jaron.algoarena.exception.ThrowUtils;
 import com.jaron.algoarena.mapper.QuestionMapper;
 import com.jaron.algoarena.model.dto.question.QuestionQueryRequest;
@@ -14,17 +15,22 @@ import com.jaron.algoarena.model.entity.User;
 import com.jaron.algoarena.model.vo.QuestionVO;
 import com.jaron.algoarena.model.vo.UserVO;
 import com.jaron.algoarena.service.QuestionService;
+import com.jaron.algoarena.service.QuestionSubmitService;
 import com.jaron.algoarena.service.UserService;
 import com.jaron.algoarena.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import com.jaron.algoarena.model.entity.QuestionSubmit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.jaron.algoarena.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 题目服务实现
@@ -35,6 +41,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Resource
     private UserService userService;
+
+    @Lazy
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     /**
      * 校验数据
@@ -179,6 +189,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 填充信息
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        User currentUser = (User) userObj;
         questionVOList.forEach(questionVO -> {
             Long userId = questionVO.getUserId();
             User user = null;
@@ -186,11 +198,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 user = userIdUserListMap.get(userId).get(0);
             }
             questionVO.setUser(userService.getUserVO(user));
+            if (currentUser != null && currentUser.getId() != null) {
+                QuestionSubmit one = questionSubmitService.lambdaQuery()
+                        .eq(QuestionSubmit::getUserId, currentUser.getId())
+                        .eq(QuestionSubmit::getQuestionId, questionVO.getId()).last("limit 1").one();
+                if (one != null) {
+                    questionVO.setStatus(1);
+                } else {
+                    questionVO.setStatus(0);
+                }
+            }
         });
         // endregion
-
         questionVOPage.setRecords(questionVOList);
         return questionVOPage;
     }
-
 }

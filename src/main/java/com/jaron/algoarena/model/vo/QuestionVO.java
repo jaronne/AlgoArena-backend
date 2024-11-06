@@ -33,21 +33,6 @@ public class QuestionVO implements Serializable {
     private String content;
 
     /**
-     * 创建用户 id
-     */
-    private Long userId;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
      * 标签列表
      */
     private List<String> tagList;
@@ -58,9 +43,14 @@ public class QuestionVO implements Serializable {
     private String answer;
 
     /**
-     * 创建用户信息
+     * 题目提交数
      */
-    private UserVO user;
+    private Integer submitNum;
+
+    /**
+     * 题目通过数
+     */
+    private Integer acceptedNum;
 
     /**
      * 判题配置（json 对象）
@@ -78,14 +68,29 @@ public class QuestionVO implements Serializable {
     private Integer favourNum;
 
     /**
-     * 题目提交数
+     * 创建用户 id
      */
-    private Integer submitNum;
+    private Long userId;
 
     /**
-     * 题目通过数
+     * 创建时间
      */
-    private Integer acceptedNum;
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 创建用户信息
+     */
+    private UserVO user;
+
+    /**
+     * 答题状态（未开始-0、已解答-1）
+     */
+    private Integer status;
 
     /**
      * 封装类转对象
