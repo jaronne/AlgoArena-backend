@@ -30,7 +30,6 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * 题目提交接口
- *
  */
 @RestController
 @RequestMapping("/questionSubmit")
@@ -176,7 +175,7 @@ public class QuestionSubmitController {
      */
     @PostMapping("/list/page/vo")
     public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitVOByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
-                                                               HttpServletRequest request) {
+                                                                           HttpServletRequest request) {
         long current = questionSubmitQueryRequest.getCurrent();
         long size = questionSubmitQueryRequest.getPageSize();
         // 限制爬虫
@@ -197,15 +196,13 @@ public class QuestionSubmitController {
      */
     @PostMapping("/my/list/page/vo")
     public BaseResponse<Page<QuestionSubmitVO>> listMyQuestionSubmitVOByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
-                                                                 HttpServletRequest request) {
+                                                                             HttpServletRequest request) {
         ThrowUtils.throwIf(questionSubmitQueryRequest == null, ErrorCode.PARAMS_ERROR);
         // 补充查询条件，只查询当前登录用户的数据
         User loginUser = userService.getLoginUser(request);
         questionSubmitQueryRequest.setUserId(loginUser.getId());
         long current = questionSubmitQueryRequest.getCurrent();
         long size = questionSubmitQueryRequest.getPageSize();
-        // 限制爬虫
-        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         // 查询数据库
         Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
                 questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));

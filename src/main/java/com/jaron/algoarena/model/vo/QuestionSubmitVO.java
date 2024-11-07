@@ -1,15 +1,13 @@
 package com.jaron.algoarena.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.jaron.algoarena.model.dto.question.JudgeConfig;
 import com.jaron.algoarena.model.dto.questionSubmit.JudgeInfo;
 import com.jaron.algoarena.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-
+import com.jaron.algoarena.model.entity.Question;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 题目提交视图
@@ -44,9 +42,9 @@ public class QuestionSubmitVO implements Serializable {
     private Integer status;
 
     /**
-     * 题目 id
+     * 题目
      */
-    private Long questionId;
+    private Question question;
 
     /**
      * 创建用户 id

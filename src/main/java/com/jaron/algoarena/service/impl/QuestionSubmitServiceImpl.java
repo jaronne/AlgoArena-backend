@@ -9,6 +9,7 @@ import com.jaron.algoarena.constant.UserConstant;
 import com.jaron.algoarena.exception.ThrowUtils;
 import com.jaron.algoarena.mapper.QuestionSubmitMapper;
 import com.jaron.algoarena.model.dto.questionSubmit.QuestionSubmitQueryRequest;
+import com.jaron.algoarena.model.entity.Question;
 import com.jaron.algoarena.model.entity.QuestionSubmit;
 import com.jaron.algoarena.model.entity.User;
 import com.jaron.algoarena.model.enums.QuestionSubmitLanguageEnum;
@@ -144,6 +145,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!Objects.equals(loginUser.getId(), userId) && !Objects.equals(loginUser.getUserRole(), UserConstant.ADMIN_ROLE)) {
             questionSubmitVO.setCode(null);
         }
+        Question question = questionService.getById(questionSubmit.getQuestionId());
+        questionSubmitVO.setQuestion(question);
         return questionSubmitVO;
     }
 
@@ -172,6 +175,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!Objects.equals(loginUser.getId(), userId) && !Objects.equals(loginUser.getUserRole(), UserConstant.ADMIN_ROLE)) {
             questionSubmitVO.setCode(null);
         }
+        Question question = questionService.getById(questionSubmit.getQuestionId());
+        questionSubmitVO.setQuestion(question);
         return questionSubmitVO;
     }
 
@@ -197,20 +202,6 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         }).collect(Collectors.toList());
         // todo 可以根据需要为封装对象补充值，不需要的内容可以删除
         // region 可选
-//        // 1. 关联查询用户信息
-//        // 批量查出用户信息，比一条一条查询效率更高
-//        Set<Long> userIdSet = questionSubmitList.stream().map(QuestionSubmit::getUserId).collect(Collectors.toSet());
-//        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
-//                .collect(Collectors.groupingBy(User::getId));
-//        // 填充信息
-//        questionSubmitVOList.forEach(questionSubmitVO -> {
-//            Long userId = questionSubmitVO.getUserId();
-//            User user = null;
-//            if (userIdUserListMap.containsKey(userId)) {
-//                user = userIdUserListMap.get(userId).get(0);
-//            }
-//            questionSubmitVO.setUser(userService.getUserVO(user));
-//        });
         // endregion
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
